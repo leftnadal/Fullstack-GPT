@@ -23,6 +23,12 @@ with st.sidebar:
         "Upload a .txt .pdf or .docx file",
         type=["pdf", "docx", "txt"],
     )
+    st.sidebar.markdown(
+        """
+### Useful Links:
+- [GitHub Repository](https://github.com/leftnadal/Fullstack-GPT)
+"""
+    )
     api_key = st.text_input("Please write your OpenAI API Key...")
 
 
