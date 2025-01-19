@@ -73,17 +73,6 @@ function_calling = {
 }
 
 
-llm = ChatOpenAI(
-    model="gpt-3.5-turbo-1106",
-    temperature=0.1,
-    streaming=True,
-    callbacks=[StreamingStdOutCallbackHandler()],
-).bind(
-    function_call={"name": "create_quiz"},
-    functions=[function_calling],
-)
-
-
 @st.cache_data(show_spinner="File is uploaded...")
 def handle_file(file):
     upload_content = file.read()
@@ -113,21 +102,6 @@ def generate_quiz(docs, difficulty):
 
 if "click" not in st.session_state:
     st.session_state["click"] = False
-
-st.set_page_config(page_title="QuizFunctionCallingGPT", page_icon="❓")
-st.title("QuizFunctionCallingGPT")
-
-st.markdown(
-    """
-    Welcome to QuizFunctionCallingGPT.
-
-    This page will use a 'function calling' in OpenAI.
-
-    I will make a quiz from Wikipedia articles or files you upload to test your knowledge and help you study.
-
-    Get started by uploading a file or searching on Wikipedia in the sidebar.
-    """
-)
 
 with st.sidebar:
     choice = st.selectbox("Choose what you want to use", ["Your own file", "Wikipedia"])
@@ -159,6 +133,34 @@ with st.sidebar:
 """
     )
     api_key = st.text_input("Please write your OpenAI API Key...")
+
+
+llm = ChatOpenAI(
+    model="gpt-3.5-turbo-1106",
+    temperature=0.1,
+    streaming=True,
+    callbacks=[StreamingStdOutCallbackHandler()],
+).bind(
+    function_call={"name": "create_quiz"},
+    functions=[function_calling],
+    openai_api_key=api_key,
+)
+
+st.set_page_config(page_title="QuizFunctionCallingGPT", page_icon="❓")
+st.title("QuizFunctionCallingGPT")
+
+st.markdown(
+    """
+    Welcome to QuizFunctionCallingGPT.
+
+    This page will use a 'function calling' in OpenAI.
+
+    I will make a quiz from Wikipedia articles or files you upload to test your knowledge and help you study.
+
+    Get started by uploading a file or searching on Wikipedia in the sidebar.
+    """
+)
+
 
 if docs:
     st.divider()
