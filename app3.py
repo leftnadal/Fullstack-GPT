@@ -148,3 +148,10 @@ if url:
             # 챗봇 응답 생성
             bot_response = chatbot_response(user_query, retriever)
             st.write(bot_response)
+    st.sidebar.markdown(
+        """
+    ### Useful Links:
+    - [GitHub Repository](https://github.com/leftnadal/Fullstack-GPT)
+    """
+    )
+    api_key = st.text_input("Please write your OpenAI API Key...")
