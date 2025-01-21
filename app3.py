@@ -8,11 +8,6 @@ from langchain.prompts import ChatPromptTemplate
 import streamlit as st
 
 
-# ChatGPT 모델 초기화
-llm = ChatOpenAI(
-    temperature=0.1,
-)
-
 # 대화 프롬프트 정의
 chat_prompt = ChatPromptTemplate.from_template(
     """
@@ -155,3 +150,8 @@ if url:
     """
     )
     api_key = st.text_input("Please write your OpenAI API Key...")
+
+llm = ChatOpenAI(
+    temperature=0.1,
+    openai_api_key=api_key,
+)
